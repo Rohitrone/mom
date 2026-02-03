@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Mom is the Best 💖</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #ffe5b4, #ffd1a9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.6s ease;
+    }
+
+    body.night {
+      background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
+    }
+
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 34px 28px;
+      border-radius: 26px;
+      width: 360px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: popIn 0.8s ease;
+      position: relative;
+    }
+
+    body.night .card {
+      background: rgba(30,30,50,0.95);
+      color: #ffe6f0;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+      color:#ff7a59;
+      font-size:22px;
+      margin:0;
+    }
+
+    h2 {
+      color:#ff9f68;
+      font-size:16px;
+      font-weight:400;
+      margin:8px 0 16px;
+    }
+
+    body.night h1,
+    body.night h2 {
+      color:#ffb3d9;
+    }
+
+    .hero-img {
+      width: 300px;
+      border-radius: 40px;
+      margin-bottom: 22px;
+      transition: box-shadow 0.6s ease, transform 0.6s ease;
+    }
+
+    body.night .hero-img {
+      box-shadow:
+        0 0 20px rgba(255,182,213,0.6),
+        0 0 40px rgba(255,120,170,0.5);
+      transform: scale(1.04);
+    }
+
+    button {
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 15px;
+      background: linear-gradient(135deg, #ff7a59, #ffb347);
+      color: white;
+      transition: 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      font-size: 14.5px;
+      line-height: 1.6;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(10px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh); opacity:1; }
+      to { transform: translateY(-10vh); opacity:0; }
+    }
+
+    #nightBtn {
+      position:absolute;
+      top:12px;
+      right:12px;
+      border:none;
+      background:#fff;
+      border-radius:50%;
+      padding:6px 10px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<audio id="music" src="song.mp3" loop></audio>
+
+<div class="card">
+  <button id="nightBtn">🌙</button>
+
+  <img class="hero-img" src="mom-ghibli.png" alt="My Mom 💖">
+
+  <h1>My Mom is the Best 💖</h1>
+  <h2>Gudiya — My Strength, My Home</h2>
+
+  <button id="startBtn">For You, MOM ❤️</button>
+
+  <div class="message" id="poemBox">
+    <span id="typingText"></span>
+  </div>
+
+  <div class="message" id="endBox">
+    <strong>I love you forever, MOM 🌸</strong>
+  </div>
+</div>
+
+<script>
+const poem = `She’s strength wrapped in softness,
+Grace dressed as courage.
+The world knows her as my mother,
+But I know her as my friend.
+
+They call her Gudiya,
+But don’t mistake the name—
+She carries storms with a smile,
+And still laughs like sunshine after rain.
+
+She gives without counting,
+Loves without conditions.
+If I know how to love quietly,
+It’s because I learned from her.
+
+My pasandida aurat,
+My forever safe place,
+My Gudiya. ❤️`;
+
+const startBtn = document.getElementById("startBtn");
+const poemBox = document.getElementById("poemBox");
+const typingText = document.getElementById("typingText");
+const endBox = document.getElementById("endBox");
+const music = document.getElementById("music");
+const nightBtn = document.getElementById("nightBtn");
+
+startBtn.onclick = () => {
+  music.play();
+  startBtn.style.display = "none";
+  poemBox.style.display = "block";
+  typePoem();
+};
+
+function typePoem() {
+  let i = 0;
+  const interval = setInterval(() => {
+    typingText.innerHTML += poem[i] === "\n" ? "<br>" : poem[i];
+    i++;
+    if (i >= poem.length) {
+      clearInterval(interval);
+      setTimeout(() => endBox.style.display = "block", 1000);
+    }
+  }, 30);
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = Math.random() > 0.5 ? "🌸" : "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 350);
+
+nightBtn.onclick = () => {
+  document.body.classList.toggle("night");
+};
+</script>
+
+</body>
+</html>
